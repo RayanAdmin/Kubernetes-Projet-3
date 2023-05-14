@@ -25,6 +25,7 @@ De plus, un Ingress sur le port 80 de notre cluster Kubernetespour accéder à a
 
 - Kubernetes doit être installé sur votre machine ou sur un cluster Kubernetes accessible.
 - Un accès à la ligne de commande Kubernetes.
+- Un serveur NFS doit être installé et configuré sur le Master, si ce n'est pas le cas, voici un lien qui explique le manipulation à effectuer [ici](https://github.com/RayanAdmin/Kubernetes-Projet-2/blob/main/README.md#installation-et-configuration-du-serveur-nfs)
 
 # Guide d'installation
 
