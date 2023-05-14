@@ -242,7 +242,6 @@ spec:
                 name: myphp-service
                 port:
                   number: 80
- 
 ```
 
 
