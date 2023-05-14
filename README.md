@@ -45,7 +45,7 @@ cd kubernetes-php-mysql
 ```
 Notez que le mot de passe par défaut est "redhat".
 
-### Installation de Traefik
+# Installation de Traefik
 
 Nous allons utiliser le contrôleur d'Ingress Traefik pour mettre en place notre Ingress.
 
