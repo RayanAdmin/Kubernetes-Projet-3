@@ -23,8 +23,8 @@ De plus, un Ingress sur le port 80 de notre cluster Kubernetespour accéder à a
 
 ## Prérequis
 
-- Un cluster Kubernetes configuré et opérationnel
-- `kubectl` installé et configuré pour se connecter à votre cluster
+- Kubernetes doit être installé sur votre machine ou sur un cluster Kubernetes accessible.
+- Un accès à la ligne de commande Kubernetes.
 
 # Guide d'installation
 
