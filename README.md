@@ -50,6 +50,11 @@ Notez que le mot de passe par défaut est "redhat".
 
 Nous allons utiliser le contrôleur d'Ingress Traefik pour mettre en place notre Ingress.
 
+Pour vérifier si le contrôleur d'Ingress Traefik vous pouvez utiliser la commande :
+```
+kubectl get pod -A
+```
+
 Si le contrôleur d'Ingress Traefik n'existe pas votre Master Kubernetes, voici comment installer Traefik avec Helm en utilisant les commandes suivantes :
 
 ```bash
