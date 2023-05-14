@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myphp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      env: production-frontend
+  template:
+    metadata:
+      name: myfrontend-pod
+      labels:
+        env: production-frontend
+    spec:
+      volumes:
+        - name: php-files
+          hostPath:
+            path: /home/rayan/projet_01/site
+      containers:
+        - name: frontend
+          image: ragh19/phpproject:web_v1
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: password
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: php-files
+

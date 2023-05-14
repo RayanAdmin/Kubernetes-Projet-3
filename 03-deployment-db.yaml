@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      env: production-db
+  template:
+    metadata:
+      name: mydb
+      labels:
+        env: production-db
+    spec:
+      securityContext:
+        runAsUser: 1001
+        fsGroup: 1002
+      volumes:
+        - name: my-nfs-storage
+          persistentVolumeClaim:
+            claimName: my-nfs-pvc
+      containers:
+      - name: database
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+          - name: my-nfs-storage
+            mountPath: /var/lib/mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-pass
+                key: password
+          - name: MYSQL_DATABASE
+            value: db
+
