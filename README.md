@@ -25,7 +25,6 @@ De plus, un Ingress sur le port 80 de notre cluster Kubernetespour accéder à a
 
 - Un cluster Kubernetes configuré et opérationnel
 - `kubectl` installé et configuré pour se connecter à votre cluster
-- Le contrôleur Traefik doit être installé et configuré pour votre cluster Kubernetes
 
 # Guide d'installation
 
