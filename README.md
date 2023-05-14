@@ -46,6 +46,26 @@ cd kubernetes-php-mysql
 ```
 Notez que le mot de passe par défaut est "redhat".
 
+### Installation de Traefik
+
+Nous allons utiliser le contrôleur d'Ingress Traefik pour mettre en place notre Ingress.
+
+Si le contrôleur d'Ingress Traefik n'existe pas votre Master Kubernetes, voici comment installer Traefik avec Helm en utilisant les commandes suivantes :
+
+```bash
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik
+```
+
+Une fois que Traefik est installé, vous pouvez vérifier qu'il est en cours d'exécution en utilisant la commande suivante :
+
+```bash
+kubectl get pods -n kube-system
+```
+
+Vous devriez voir un pod Traefik en cours d'exécution.
+
 ## Configuration des Persistent Volumes et Persistent Volume Claims
 
 1. Créer un Persistent Volume (PV) pour le serveur NFS en utilisant le fichier suivant :
@@ -226,97 +246,18 @@ spec:
 ```
 
 
+# Déployment des ressources Kubernetes
 
-### Installation de Traefik
+1. Déployer le fichier de Kustomization ainsi que les fichiers de service en utilisant les fichier suivant :
 
-Nous allons utiliser le contrôleur d'Ingress Traefik pour mettre en place notre Ingress.
-
-Pour cela, nous allons installer Traefik avec Helm en utilisant les commandes suivantes :
-
-```bash
-helm repo add traefik https://helm.traefik.io/traefik
-helm repo update
-helm install traefik traefik/traefik
 ```
-
-Une fois que Traefik est installé, vous pouvez vérifier qu'il est en cours d'exécution en utilisant la commande suivante :
-
-```bash
-kubectl get pods -n kube-system
+kubectl apply -k .
+kubectl apply -f  nfs-pv.yaml
+kubectl apply -f  nfs-pvc.yaml
+kubectl apply -f  02-servicedb.yaml
+kubectl apply -f  02-servicephp.yaml
+kubectl apply -f  03-ingress-traefik-php.yaml
 ```
-
-Vous devriez voir un pod Traefik en cours d'exécution.
-
-### Déploiement d'une application PHP
-
-Nous allons maintenant déployer une application PHP de démonstration à l'aide d'un fichier YAML. Vous pouvez utiliser le fichier suivant :
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: myphp-deployment
-  labels:
-    app: myphp
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: myphp
-  template:
-    metadata:
-      labels:
-        app: myphp
-    spec:
-      containers:
-        - name: myphp
-          image: k8s.gcr.io/php-apache
-          ports:
-            - containerPort: 80
-```
-
-
-
-### Déploiement de l'Ingress
-
-Nous allons maintenant déployer notre Ingress.
-
-Créez un fichier YAML appelé `myphp-ingress.yaml` avec le contenu suivant :
-
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: myphp-ingress
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-spec:
-  rules:
-    - host: my-app
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: myphp-deployment
-                port:
-                  name: http
-```
-
-Appliquez ce fichier en utilisant la commande suivante :
-
-```bash
-kubectl apply -f myphp-ingress.yaml
-```
-
-Vous pouvez vérifier que votre Ingress est correctement configuré en utilisant la commande suivante :
-
-```bash
-kubectl get ingress
-```
-
-Vous devriez voir votre Ingress apparaître dans la liste.
 
 ### Accès à l'application
 
