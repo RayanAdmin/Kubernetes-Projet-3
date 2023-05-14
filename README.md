@@ -258,10 +258,10 @@ kubectl apply -f  02-servicephp.yaml
 kubectl apply -f  03-ingress-traefik-php.yaml
 ```
 
-### Accès à l'application
+# Accès à l'application
 
 Une fois que votre Ingress est en cours d'exécution, vous pouvez accéder à votre application en utilisant l'URL `http://my-app`.
 
-### Conclusion
+# Conclusion
 
 Félicitations ! Vous avez configuré avec succès un Ingress sur le port 80 de votre cluster Kubernetes en utilisant Traefik. Vous pouvez maintenant utiliser cette méthode pour permettre l'accès à d'autres applications sur votre cluster
